@@ -47,7 +47,7 @@ h1 {
 }
 
 .data-list:hover > li {
-    opacity: .5;
+    opacity: .7;
 }
 
 .data-list li {
