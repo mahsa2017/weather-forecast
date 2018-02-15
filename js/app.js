@@ -35,8 +35,8 @@ window.onload = function () {
 
 function updateByName(name) {
     var url = "https://api.openweathermap.org/data/2.5/forecast?" + "q=" + name + "&units=metric" +
-        "&APPID=" + APPID;         
-        //add &units=metric
+        "&APPID=" + APPID;
+    //add &units=metric
     sendRequest(url);
 };
 
@@ -48,16 +48,21 @@ function sendRequest(url) {
             var data = JSON.parse(xmlhttp.responseText);
             var weather = {};
             console.log(data);
-            weather.code = data.weather[0].id;
-            weather.humidity = data.main.humidity;
-            weather.wind = data.wind.speed;
-            weather.description = data.weather[0].description;
-            /* NEW */
-            weather.location = data.name;
-            /* NEW */
-            weather.temp = Math.round(data.main.temp);
-            weather.dateTime = unixToUtc(data.dt);
-            update(weather);
+            // console.log(data.list.length);//40 
+            // console.log(data.list[0].main.temp_min)//7.49
+            for (i = 0; i < data.list.length; i += 8) {
+                console.log(data.list[i].main.temp_min)//7.49
+            }
+            // weather.code = data.weather[0].id;
+            // weather.humidity = data.main.humidity;
+            // weather.wind = data.wind.speed;
+            // weather.description = data.weather[0].description;
+            // /* NEW */
+            // weather.location = data.name;
+            // /* NEW */
+            // weather.temp = Math.round(data.main.temp);
+            // weather.dateTime = unixToUtc(data.dt);
+            // update(weather);
         };
     };
 
