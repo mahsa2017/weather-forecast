@@ -12,7 +12,9 @@ html {
 
 body {
     min-height: 100%;
-    color: #000;
+    background-color: #3399CC;
+    min-height: 100%;
+    color: #FFF;
     font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 }
 
@@ -44,12 +46,21 @@ h1 {
     background-color: #FFF;
 }
 
+.data-list:hover > li {
+    opacity: .5;
+}
+
 .data-list li {
     display: inline-block;
     font-size: 20px;
-    border: 1px solid #000;
+    background-color: rgb(164, 204, 238);
+    /* border: 1px solid rgb(19, 2, 247); */
     text-align: center;
     padding: 20px 0;
+}
+
+.data-list > li:hover {
+    opacity: 1;
 }
 
 .data-list li.data-first,
@@ -64,14 +75,5 @@ h1 {
 
     .data-list li[class*='data-'] {
         width: 100%;
-    }
-
-    body {
-        border: none;
-    }
-
-    body:before,
-    body:after {
-        display: none;
     }
 }
