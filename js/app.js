@@ -4,22 +4,41 @@ var loc;
 var icon;
 var humidity;
 var wind;
-//var description;
 var minTemp;
 var maxTemp;
 var dateTime;
+var arrayTempMin = [];
+var arrayTempMax = [];
+var arrayWind = [];
+var arrayHumid = [];
+var arrayCode = [];
+var arrayDate = [];
 
 
 function update(weather) {
-    icon.src = "imgs/codes/" + weather.code + ".png"
-    humidity.innerHTML = weather.humidity;
-    wind.innerHTML = weather.wind
-    //description.innerHTML = weather.description
-    loc.innerHTML = weather.location;
-    temp.innerHTML = weather.temp;
-    dateTime.innerHTML = weather.dateTime;
-    minTemp.innerHTML = weather.minTemp;
-    maxTemp.innerHtml = weather.maxTemp;
+
+    loc[0].textContent = weather.location;
+    for (i = 0; i < arrayCode.length; i++) {
+        icon[i].src = "imgs/codes/" + arrayCode[i] + ".png"
+    };
+    for (i = 0; i < arrayTempMin.length; i++) {
+        minTemp[i].textContent = "Min Temp: " + arrayTempMin[i];
+    };
+    for (i = 0; i < arrayTempMax.length; i++) {
+        maxTemp[i].textContent = "Max Temp: " + arrayTempMax[i];
+    };
+    for (i = 0; i < arrayWind.length; i++) {
+        wind[i].textContent = arrayWind[i];
+    };
+    for (i = 0; i < arrayHumid.length; i++) {
+        humidity[i].textContent = arrayHumid[i];
+    };
+    for (i = 0; i < arrayDate.length; i++) {
+        var tmp = unixToUtc(arrayDate[i]);
+        tmpdate = new Date(tmp);
+        datex = tmpdate.toDateString();
+        dateTime[i].textContent = datex;
+    };
 };
 
 window.onload = function () {
@@ -29,17 +48,15 @@ window.onload = function () {
     icon = document.getElementsByClassName("icon");
     humidity = document.getElementsByClassName("humidity");
     wind = document.getElementsByClassName("wind")
-    // description = document.getElementById("description");
     dateTime = document.getElementsByClassName("date");
-        console.log("dddddddddddateeeee",dateTime);// HTMLCollection(5) ,arrayDate needs to be assigned to this class
     var name = window.prompt(" Enter the city name: ");
     updateByName(name);
 };
 
 function updateByName(name) {
     var url = "https://api.openweathermap.org/data/2.5/forecast?" + "q=" + name + "&units=metric" +
-        "&APPID=" + APPID;         
-        //add &units=metric
+        "&APPID=" + APPID;
+    //add &units=metric
     sendRequest(url);
 };
 
@@ -49,6 +66,7 @@ function sendRequest(url) {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             var data = JSON.parse(xmlhttp.responseText);
             var weather = {};
+<<<<<<< HEAD
                       console.log("whole ",data);
                       console.log("only list",data.list);
 
@@ -126,6 +144,27 @@ function sendRequest(url) {
             
              //weather.temp = Math.round(data.main.temp);
             //weather.description = data.weather[0].description;
+=======
+            for (var i = 0; i < data.list.length; i += 8) {
+                arrayCode.push(data.list[i].weather[0].id);
+            };
+            for (var i = 0; i < data.list.length; i += 8) {
+                arrayHumid.push(data.list[i].main.humidity);
+            };
+            for (var i = 0; i < data.list.length; i += 8) {
+                arrayWind.push(data.list[i].wind.speed);
+            };
+            weather.location = data.city.name; // Location is always the same
+            for (var i = 0; i < data.list.length; i += 8) {
+                arrayTempMax.push(Math.round(data.list[i].main.temp_max));
+            };
+            for (var i = 0; i < data.list.length; i += 8) {
+                arrayTempMin.push(Math.round(data.list[i].main.temp_min));
+            };
+            for (var i = 0; i < data.list.length; i += 8) {
+                arrayDate.push(data.list[i].dt);
+            };
+>>>>>>> upstream/master
             update(weather);
         };
     };
@@ -133,10 +172,6 @@ function sendRequest(url) {
     xmlhttp.open("GET", url, true);
     xmlhttp.send();
 };
-
-// function K2C(k) {
-//     return Math.round(k - 273.15);
-// };
 function unixToUtc(t) {
     return new Date(t * 1000).toString()
 };

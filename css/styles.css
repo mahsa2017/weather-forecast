@@ -42,7 +42,7 @@ h1 {
 .data-list {
     list-style-type: none;
     font-size: 0;
-    border: 1px solid #FFF;
+    /* border: 1px solid #FFF; */
     background-color: #FFF;
 }
 
@@ -54,7 +54,7 @@ h1 {
     display: inline-block;
     font-size: 20px;
     background-color: rgb(164, 204, 238);
-    /* border: 1px solid rgb(19, 2, 247); */
+    border: 1px solid rgb(255, 255, 255); 
     text-align: center;
     padding: 20px 0;
 }
