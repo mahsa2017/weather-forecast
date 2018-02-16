@@ -58,7 +58,7 @@ function sendRequest(url) {
                     for(var i=0; i < data.list.length; i+=8){
                             arrayCode.push(data.list[i].weather[0].id); 
                     }
-                    //next for : debagging 
+                    //next for : debugging 
                     console.log(arrayCode) //5 item array
                     for (var i=0;i<arrayCode.length; i++){
                         console.log("code for day " + i + " is " , arrayCode[i]);
@@ -69,7 +69,7 @@ function sendRequest(url) {
                     for(var i=0; i < data.list.length; i+=8){
                             arrayHumid.push( data.list[i].main.humidity); 
                     }
-                    //next for : debagging 
+                    //next for : debugging 
                     console.log(arrayHumid) //5 item array
                     for (var i=0;i<arrayHumid.length; i++){
                         console.log("humidity for day " + i + " is " , arrayHumid[i]);
@@ -80,7 +80,7 @@ function sendRequest(url) {
                     for(var i=0; i < data.list.length; i+=8){
                             arrayWind.push(data.list[i].wind.speed); 
                     }
-                    //next for : debagging 
+                    //next for : debugging 
                     console.log(arrayWind) //5 item array
                     for (var i=0;i<arrayWind.length; i++){
                         console.log("Wind for day " + i + " is " , arrayWind[i]);
@@ -95,7 +95,7 @@ function sendRequest(url) {
                     for(var i=0; i < data.list.length; i+=8){
                             arrayTempMax.push(data.list[i].main.temp_max); 
                     }
-                    //next for : debagging 
+                    //next for : debugging 
                     console.log(arrayTempMax) //5 item array
                     for (var i=0;i<arrayWind.length; i++){
                         console.log("Temp_max for day " + i + " is " , arrayTempMax[i]);
@@ -106,7 +106,7 @@ function sendRequest(url) {
                     for(var i=0; i < data.list.length; i+=8){
                             arrayTempMin.push(data.list[i].main.temp_min); 
                     }
-                    //next for : debagging 
+                    //next for : debugging 
                     console.log(arrayTempMin) //5 item array
                     for (var i=0;i<arrayWind.length; i++){
                         console.log("Temp_max for day " + i + " is " , arrayTempMin[i]);
@@ -118,7 +118,7 @@ function sendRequest(url) {
                     for(var i=0; i < data.list.length; i+=8){
                         arrayDate.push(data.list[i].dt_txt); 
                     }
-                    //next for : debagging 
+                    //next for : debugging 
                     console.log(arrayDate) //5 item array
                     for (var j=0;j<arrayDate.length; j++){
                         console.log("Date & Time for day " + j + " is " , arrayDate[j]);
