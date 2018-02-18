@@ -35,9 +35,8 @@ function update(weather) {
     };
     for (i = 0; i < arrayDate.length; i++) {
         var tmp = unixToUtc(arrayDate[i]);
-        tmpdate = new Date(tmp);
-        datex = tmpdate.toDateString();
-        dateTime[i].textContent = datex;
+        datex = tmp.slice(0, 15);               //changed data transform
+        dateTime[i].textContent = datex
     };
 };
 
@@ -77,14 +76,34 @@ function sendRequest(url) {
             };
             weather.location = data.city.name; // Location is always the same
             for (var i = 0; i < data.list.length; i += 8) {
-                arrayTempMax.push(Math.round(data.list[i].main.temp_max));
-            };
-            for (var i = 0; i < data.list.length; i += 8) {
-                arrayTempMin.push(Math.round(data.list[i].main.temp_min));
-            };
-            for (var i = 0; i < data.list.length; i += 8) {
                 arrayDate.push(data.list[i].dt);
             };
+            //// new calculation for min and max Temp depends from data shift
+            var minTempDay = [];
+            var maxTempDay = [];
+            var n = 0;
+            for (i = 0; i < 5; i++) {
+                for (j = n; j < data.list.length; j++) {
+                    var tmp = unixToUtc(data.list[n].dt);
+                    dateStart = tmp.slice(0, 15);
+                    var tmp1 = unixToUtc(data.list[j].dt);
+                    dateTemp = tmp1.slice(0, 15);
+                    if (dateTemp === dateStart) {
+                        minTempDay.push(Math.round(data.list[j].main.temp_min))
+                        maxTempDay.push(Math.round(data.list[j].main.temp_max))
+                    } else {
+                        var n = j;
+                        break
+                    };
+                };
+                min_temp_first_day = Math.min(...minTempDay);
+                arrayTempMin.push(min_temp_first_day);
+                minTempDay.length = 0;
+                max_temp_first_day = Math.max(...maxTempDay);
+                arrayTempMax.push(max_temp_first_day);
+                maxTempDay.length = 0;
+            };
+            ////////////////////////////////////////////////////////////////
             update(weather);
         };
     };
