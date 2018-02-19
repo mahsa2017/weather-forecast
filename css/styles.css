@@ -42,7 +42,6 @@ h1 {
 .data-list {
     list-style-type: none;
     font-size: 0;
-    /* border: 1px solid #FFF; */
     background-color: #FFF;
 }
 

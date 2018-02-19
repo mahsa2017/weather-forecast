@@ -1,4 +1,5 @@
 var APPID = "33fb7454eb75c6a062a86f7f0ee2695a";
+var temp;
 var loc;
 var icon;
 var humidity;
@@ -34,9 +35,8 @@ function update(weather) {
     };
     for (i = 0; i < arrayDate.length; i++) {
         var tmp = unixToUtc(arrayDate[i]);
-        tmpdate = new Date(tmp);
-        datex = tmpdate.toDateString();
-        dateTime[i].textContent = datex;
+        datex = tmp.slice(0, 15);               //changed data transform
+        dateTime[i].textContent = datex
     };
 };
 
@@ -77,79 +77,35 @@ function sendRequest(url) {
                 arrayWind.push(data.list[i].wind.speed);
             };
             weather.location = data.city.name; // Location is always the same
-            //FirstDaymin
-            var minTempFirstDay=[];
-            for (var i = 0; i < 8; i ++) {
-               minTempFirstDay.push(Math.round(data.list[i].main.temp_min));
-            };
-            min_temp_first_day=Math.min(...minTempFirstDay);
-            arrayTempMin.push(min_temp_first_day);
-            //secondDaymin
-            var minTempSecDay=[];
-            for (var i = 8; i < 16; i ++) {
-               minTempSecDay.push(Math.round(data.list[i].main.temp_min));
-            };
-            min_temp_Sec_day=Math.min(...minTempSecDay);
-            arrayTempMin.push(min_temp_Sec_day);
-            //thirdDaymin
-            var minTempThirdDay=[];
-            for (var i = 16; i < 24; i ++) {
-               minTempThirdDay.push(Math.round(data.list[i].main.temp_min));
-            };
-            min_temp_Third_day=Math.min(...minTempThirdDay);
-            arrayTempMin.push(min_temp_Third_day);
-            //fourthDaymin
-            var minTempFourthDay=[];
-            for (var i = 24; i < 32; i ++) {
-               minTempFourthDay.push(Math.round(data.list[i].main.temp_min));
-            };
-            min_temp_Fourth_day=Math.min(...minTempFourthDay);  
-            arrayTempMin.push(min_temp_Fourth_day);
-            //FifthDaymin
-            var minTempFifthDay=[];
-            for (var i = 32; i < 40; i ++) {
-               minTempFifthDay.push(Math.round(data.list[i].main.temp_min));
-            };
-            min_temp_Fifth_day=Math.min(...minTempFifthDay);
-            arrayTempMin.push(min_temp_Fifth_day);
-             //FirstDaymax
-             var maxTempFirstDay=[];
-             for (var i = 0; i < 8; i ++) {
-                maxTempFirstDay.push(Math.round(data.list[i].main.temp_max));
-             };
-             max_temp_first_day=Math.max(...maxTempFirstDay);
-             arrayTempMax.push(max_temp_first_day);
-             //secondDaymax
-             var maxTempSecDay=[];
-             for (var i = 8; i < 16; i ++) {
-                maxTempSecDay.push(Math.round(data.list[i].main.temp_max));
-             };
-             max_temp_Sec_day=Math.max(...maxTempSecDay);
-             arrayTempMax.push(max_temp_Sec_day);
-            //thirdDaymax
-             var maxTempThirdDay=[];
-             for (var i = 16; i < 24; i ++) {
-                maxTempThirdDay.push(Math.round(data.list[i].main.temp_max));
-             };
-             max_temp_Third_day=Math.max(...maxTempThirdDay);
-             arrayTempMax.push(max_temp_Third_day);
-             //fourthDaymax
-             var maxTempFourthDay=[];
-             for (var i = 24; i < 32; i ++) {
-                maxTempFourthDay.push(Math.round(data.list[i].main.temp_max));
-             };
-             max_temp_Fourth_day=Math.max(...maxTempFourthDay);
-             arrayTempMax.push(max_temp_Fourth_day);
-             //FifthDaymax
-             var maxTempFifthDay=[];
-             for (var i = 32; i < 40; i ++) {
-                maxTempFifthDay.push(Math.round(data.list[i].main.temp_max));
-             };
-             max_temp_Fifth_day=Math.max(...maxTempFifthDay);
-             arrayTempMax.push(max_temp_Fifth_day);
             for (var i = 0; i < data.list.length; i += 8) {
                 arrayDate.push(data.list[i].dt);
             };
+            //// new calculation for min and max Temp depends from data shift
+            var minTempDay = [];
+            var maxTempDay = [];
+            var n = 0;
+            for (i = 0; i < 5; i++) {
+                for (j = n; j < data.list.length; j++) {
+                    var tmp = unixToUtc(data.list[n].dt);
+                    dateStart = tmp.slice(0, 15);
+                    var tmp1 = unixToUtc(data.list[j].dt);
+                    dateTemp = tmp1.slice(0, 15);
+                    if (dateTemp === dateStart) {
+                        minTempDay.push(Math.round(data.list[j].main.temp_min))
+                        maxTempDay.push(Math.round(data.list[j].main.temp_max))
+                    } else {
+                        var n = j;
+                        break
+                    };
+                };
+                min_temp_first_day = Math.min(...minTempDay);
+                arrayTempMin.push(min_temp_first_day);
+                minTempDay.length = 0;
+                max_temp_first_day = Math.max(...maxTempDay);
+                arrayTempMax.push(max_temp_first_day);
+                maxTempDay.length = 0;
+            };
+            ////////////////////////////////////////////////////////////////
             update(weather);
         };
     };
