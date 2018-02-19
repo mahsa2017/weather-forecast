@@ -65,6 +65,8 @@ function sendRequest(url) {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             var data = JSON.parse(xmlhttp.responseText);
             var weather = {};
+            for(var i=0;i<8;i++)
+            console.log(data.list[i]);
             for (var i = 0; i < data.list.length; i += 8) {
                 arrayCode.push(data.list[i].weather[0].id);
             };
